@@ -32,7 +32,7 @@ public class SelectBookDAO extends CommonDAO {
 		
 	
 		
-		String sql = "SELECT bookid, title, author, published_year, code,status, keyword FROM book";
+		String sql = "SELECT bookid, title, author, published_year, code,status, keyword, image FROM book";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
@@ -57,8 +57,9 @@ public class SelectBookDAO extends CommonDAO {
 			 String code = rs.getString("code");
 			 String status = rs.getString("status");
 			 String keyword = rs.getString("keyword");
+			 String image = rs.getString("image");
 			 
-			 bean.setBookBean(bookId, title, author, published_year, code,status, keyword);
+			 bean.setBookBean(bookId, title, author, published_year, code,status, keyword, image);
 			 
 			 booklist.add(bean);
 

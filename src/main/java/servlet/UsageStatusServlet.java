@@ -41,7 +41,7 @@ public class UsageStatusServlet extends HttpServlet {
 		
 		request.setAttribute("diningStatus", diningStatus);
 		
-	    forward = "UsageStatus.jsp";
+	    forward = "/WEB-INF/views/UsageStatus.jsp";
 		request.getRequestDispatcher(forward).forward(request, response);
 		
 		

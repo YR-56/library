@@ -15,17 +15,10 @@
 <body>
 	<h1>システム　～ログイン～</h1>
 	
-	 <% String bookid = null;
-	
-	bookid = (String) request.getParameter("bookid");
+
 	
 	
-	%>
-	
-	<%= bookid %>
-	
-	
-	<form action="FrontControllerServlet" method="post">
+	<form action="servlet/FrontControllerServlet" method="post">
 		ユーザー名：<br>
 		<input type="text" name="username" ><br>
 		パスワード:<br>

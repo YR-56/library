@@ -79,7 +79,7 @@ public class FrontControllerServlet extends HttpServlet {
 					request.setAttribute("failure", failure);
 				}
 				
-			forward = "mypage.jsp";
+			forward = "/WEB-INF/views/mypage.jsp";
         } else if(action.equals("history")) {
         	
         	
@@ -99,7 +99,7 @@ public class FrontControllerServlet extends HttpServlet {
 				
 				request.setAttribute("history", history);
 				
-				forward = "renthistory.jsp";
+				forward = "WEB=INF/views/renthistory.jsp";
                 
         } else if(action.equals("search")) {
         	
@@ -117,7 +117,7 @@ public class FrontControllerServlet extends HttpServlet {
         	
         	request.setAttribute("findtitle", findtitle);
         	
-        	forward = "searchtitle.jsp";
+        	forward = "/WEB-INF/views/searchtitle.jsp";
         	
         	
         	
@@ -152,7 +152,7 @@ public class FrontControllerServlet extends HttpServlet {
         		String user_name = request.getParameter("username");
         		String Password = request.getParameter("password");
         		
-        		
+        		String message = "";
         		
         		
         		String hashedpass = PasswordHashServlet.getHashedPassword(Password, "HDJFUESLO83");
@@ -165,16 +165,38 @@ public class FrontControllerServlet extends HttpServlet {
         		
         		System.out.println(passchecker);
         		
+        		//ユーザ名がすでに登録されているかチェック
+        		
+        		boolean checkname = dao.checkusername(user_name);
+        		
+        		if(checkname) {
+        			message = "すでに登録されている名前です。別の名前にしてください";
+	                request.setAttribute("message", message);
+	                
+	                //再び戻ったときにユーザーが入力した値を保持しておく
+	                
+	                request.setAttribute("username", user_name);
+	                request.setAttribute("password", Password);
+        			
+        			forward = "register.jsp";
+        			
+        			
+        		} else {
         		
         		
         		if(passchecker < 6) {
-        			String message = "パスワードは6文字以上です";
+        			message = "パスワードは6文字以上です";
         			request.setAttribute("message", message);
+        			
+        			   
+	                request.setAttribute("username", user_name);
+	                request.setAttribute("password", Password);
+        			
         			
         			forward = "register.jsp";
         			request.getRequestDispatcher(forward).forward(request, response);
         			
-        		 forward = "register.jsp";
+        		 
         		} else {
         			 
         			
@@ -202,7 +224,7 @@ public class FrontControllerServlet extends HttpServlet {
     				forward = "mypage.jsp";
     			}}
         	
-        }    else if(action.equals("change")) {
+        } }   else if(action.equals("change")) {
         	
         	 
         	
@@ -231,16 +253,16 @@ public class FrontControllerServlet extends HttpServlet {
         		if(rs2 == 1) {
         			String message = "ユーザー情報を変更しました";
         			request.setAttribute("message", message);
-        			forward = "mypage.jsp";
+        			forward = "/WEB-INF/views/mypage.jsp";
         		} else {
-        			forward = "UserChange.jsp";
+        			forward = "/WEB-INF/views/UserChange.jsp";
         		}
         		
         	}else {
         		
         		String message = "現在のパスワードが違います";
         		request.setAttribute("message", message);
-        		forward = "UserChange.jsp";
+        		forward = "/WEB-INF/views/UserChange.jsp";
         		
         		
         	} 
@@ -251,7 +273,7 @@ public class FrontControllerServlet extends HttpServlet {
         } else if(action.equals("logout")) {
         	   HttpSession session = request.getSession();
                session.invalidate();           
-               forward = "mypage.jsp";
+               forward = "/WEB-INF/views/mypage.jsp";
           
         }
         	
@@ -261,12 +283,13 @@ public class FrontControllerServlet extends HttpServlet {
         else {
         	
         	
-        	forward = "login_fail.jsp";
+        	forward = "/WEB-INF/views/login_fail.jsp";
         }
         
 	
 	
 		request.getRequestDispatcher(forward).forward(request, response);
+		return;
 	   
         }
 
@@ -284,7 +307,7 @@ public class FrontControllerServlet extends HttpServlet {
 			
             System.out.println(exceptionMessage);
            
-            forward = "/WEB-INF/login_failer.jsp";
+            forward = "/WEB-INF/views/login_failer.jsp";
             request.getRequestDispatcher(forward).forward(request, response);
         }
         

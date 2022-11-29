@@ -63,6 +63,9 @@ boolean isLimit = rentNum.isLimit();
   <% for(BookBean bean : booklist){ %>
   
    <tr>
+            <td><%String image = bean.getImage(); %>
+          <img src="<%= image %>" width="100" height="100" ></td>
+         
           <td><% String bookid = bean.getBookId(); %>
           <%= bookid %></td>
           <td><% String title = bean.getTitle(); %>
@@ -78,6 +81,7 @@ boolean isLimit = rentNum.isLimit();
           <td><% String keyword = bean.getKeyword(); %>
           <%= keyword %></td>
           
+         
           <form action="rentConfirm.jsp" method="get">
           <input type="hidden" name="bookid" value="<%= bookid %>">
            <input type="hidden" name="title" value="<%= title %>">

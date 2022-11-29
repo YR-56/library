@@ -33,7 +33,7 @@ class LoginServlet  {
 			HttpSession session = request.getSession();
 			session.setAttribute("user", bean);
 			
-			return "mypage.jsp";
+			return "/WEB-INF/views/mypage.jsp";
 		} else {
 			return "/WEB-INF/login_failer.jsp";
 		}

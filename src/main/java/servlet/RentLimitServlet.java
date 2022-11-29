@@ -35,7 +35,7 @@ class  RentLimitServlet {
 			
 			request.setAttribute("rentNum", rentCount);
 			
-			return "booklist.jsp";
+			return "/WEB-INF/views/booklist.jsp";
 			
 			
 			
@@ -48,7 +48,7 @@ class  RentLimitServlet {
 	            System.out.println(exceptionMessage);
 	           
 			
-			return "login_failer.jsp";
+			return "/WEB-INF/views/login_failer.jsp";
 		}
 		
 		

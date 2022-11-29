@@ -39,7 +39,7 @@ import bean.UsersBean;
     String forward = "";
 
     if(!action.equals("食堂利用申請")) {
-        forward = "mypage.jsp";
+        forward = "/WEB-INF/views/mypage.jsp";
         request.getRequestDispatcher(forward).forward(request, response);
         return;
     }    
@@ -73,7 +73,7 @@ import bean.UsersBean;
       
         //messageをリクエストにsetAttribute
 
-        forward = "UsageStatus.jsp";
+        forward = "/WEB-INF/views/UsageStatus.jsp";
         request.getRequestDispatcher(forward).forward(request, response);
         return;
     }
@@ -109,7 +109,7 @@ import bean.UsersBean;
 
         //messageをリクエストにsetAttribute
 
-        forward = "UsageStatus.jsp";
+        forward = "/WEB-INF/views/UsageStatus.jsp";
         request.getRequestDispatcher(forward).forward(request, response);
         return;
     }

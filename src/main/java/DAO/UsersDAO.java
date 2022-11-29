@@ -158,6 +158,10 @@ public class UsersDAO extends CommonDAO {
 		
 		}		
 	
+	/**
+	 * 
+	 * パスワード変更の時にパスワード確認をするためのDAO
+	 * */
 	public boolean checkpassword(String password, int userid) throws SQLException, ClassNotFoundException {
 		Connection con = null;
 		Statement prepareStatement = null;
@@ -183,6 +187,36 @@ public class UsersDAO extends CommonDAO {
         return false;
 		} 
 	}
+	
+	/**
+	 * 
+	 * usernameの重複チェック
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 * */
+	
+	public boolean checkusername(String username) throws SQLException, ClassNotFoundException {
+		
+		Connection con = null;
+		Statement prepareStatement = null;
+		ResultSet rs = null;
+		con = createConnection();
+		prepareStatement = con.createStatement();
+		
+		String sql = "SELECT COUNT(*) FROM user WHERE user_name = ?";
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setString(1, username);
+		rs = st.executeQuery();
+		
+		if(rs.next()) {
+			return rs.getInt(1) > 0;
+		} else {
+			return false;
+		}
+	}
+	
+	
 	
 	public int changedUserInfo(String password, String username, int userid) throws ClassNotFoundException, SQLException {
 		Connection con = null;

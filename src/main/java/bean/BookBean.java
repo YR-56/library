@@ -15,8 +15,9 @@ public class BookBean implements Serializable {
 	private String code;
 	private String status;
 	private String keyword;
+	private String image;
 	
-	public void setBookBean(String bookId,String title, String author, String published_year, String code, String status, String keyword)
+	public void setBookBean(String bookId,String title, String author, String published_year, String code, String status, String keyword, String image)
 	{
 		this.bookId = bookId;
 		this.title = title;
@@ -25,6 +26,7 @@ public class BookBean implements Serializable {
 		this.code = code;
 		this.status = status;
 		this.keyword = keyword;
+		this.image = image;
 	}
 	
 	public String getBookId() {
@@ -52,6 +54,10 @@ public class BookBean implements Serializable {
 		return keyword;
 	}
 	
+	public String getImage() {
+		return image;
+	}
+	
 	public void setBookId(String value) {
 		bookId = value;
 	}
@@ -75,6 +81,9 @@ public class BookBean implements Serializable {
 		keyword = value;
 	}
 	
+	public void setImage(String value) {
+		image = value;
+	}
 	
 	
 

@@ -70,7 +70,7 @@ message = (String)request.getAttribute("message");
    
          
   <input type="hidden" name="action" value="logout">
-  <input type="submit" value="返却" >
+  <input type="submit" value="ログアウト" >
   </form>
    
   
