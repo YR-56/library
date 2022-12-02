@@ -221,7 +221,7 @@ public class FrontControllerServlet extends HttpServlet {
     				HttpSession session = request.getSession();
     				session.setAttribute("user", bean);
     				
-    				forward = "mypage.jsp";
+    				forward = "/WEB-INF/views/mypage.jsp";
     			}}
         	
         } }   else if(action.equals("change")) {

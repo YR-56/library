@@ -18,7 +18,7 @@
 
 	
 	
-	<form action="servlet/FrontControllerServlet" method="post">
+	<form action="./library/FrontControllerServlet" method="post">
 		ユーザー名：<br>
 		<input type="text" name="username" ><br>
 		パスワード:<br>
