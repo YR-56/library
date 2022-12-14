@@ -68,6 +68,48 @@ public class SelectBookDAO extends CommonDAO {
 		 return booklist;
 
 	}
+	
+	/**
+	 * 貸し出し中の本一覧を取得するメソッド
+	 * @return
+	 * @throws SQLException 
+	 * @throws ClassNotFoundException 
+	 */
+	public List<BookBean> selectlendingbook() throws SQLException, ClassNotFoundException {
+	    Connection con = null;
+	    Statement prepareStatement = null;
+
+	    ResultSet rs = null;
+
+	    con = createConnection();
+	    prepareStatement = con.createStatement();
+
+	    String sql = "SELECT bookid, title, author, published_year, code, status, keyword, image FROM book WHERE status = '貸し出し中'";
+	    PreparedStatement st = con.prepareStatement(sql);
+
+	    st.execute(sql);
+	    rs = st.getResultSet();
+
+	    List<BookBean> lendingbook = new ArrayList<BookBean>();
+
+	    while(rs.next()) {
+
+	        BookBean bean = new BookBean();
+	        String bookId = rs.getString("bookId");
+	        String title = rs.getString("title");
+	        String author = rs.getString("author");
+				 String published_year = rs.getString("published_year");
+				 String code = rs.getString("code");
+				 String status = rs.getString("status");
+				 String keyword = rs.getString("keyword");
+				 String image = rs.getString("image");
+				 
+				 bean.setBookBean(bookId, title, author, published_year, code,status, keyword, image);
+				 
+				 lendingbook.add(bean);
+	    }
+	    return lendingbook;
+	}
 	 
 	public int rentbook(String bookid, int userid, String title) throws  SQLException, ClassNotFoundException {
 		
@@ -154,6 +196,56 @@ public class SelectBookDAO extends CommonDAO {
 		
 	}
 	
+	/**
+	 * 一括返却のメソッド
+	 * @param returnbook
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	
+	public int returnCheckall(String [] returnbook) throws ClassNotFoundException, SQLException {
+		Connection con = null;
+		Statement prepareStatement = null;
+		
+		int rs = 0;
+		con = createConnection();
+		prepareStatement = con.createStatement();
+		
+		for(String book : returnbook) {
+		
+		String sql = "UPDATE book SET status = '貸し出し可能' WHERE bookid = ?";
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		
+			st.setString(1, book);
+		
+		rs = st.executeUpdate();
+		
+		}
+		for(String book : returnbook) {
+		String sql2 = "UPDATE bookrecord SET returndate = CURRENT_TIMESTAMP WHERE bookid = ? AND returndate is Null";
+		
+		PreparedStatement st2 = con.prepareStatement(sql2);
+		
+			st2.setString(1, book);
+		
+		
+		rs = st2.executeUpdate();
+		
+		}
+		if(rs == 1) {
+			return 1;
+		} else {
+			return 0;
+		}
+		
+		
+		
+	}
+	
+	
+	
 	
 	/**
 	 * 貸し出し返却履歴
@@ -235,8 +327,9 @@ public class SelectBookDAO extends CommonDAO {
 				 String code = rs.getString("code");
 				 String status = rs.getString("status");
 				 String keyword = rs.getString("keyword");
+				 String image = rs.getString("image");
 				 
-				 bean.setBookBean(bookId, title, author, published_year, code,status, keyword);
+				 bean.setBookBean(bookId, title, author, published_year, code,status, keyword, image);
 				 
 				 findtitle.add(bean);
 		    	

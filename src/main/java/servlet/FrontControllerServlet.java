@@ -72,25 +72,29 @@ public class FrontControllerServlet extends HttpServlet {
 				rs = rent.rentbook(bookid, userid, title);
 				
 				if(rs == 1) {
-					String success = "貸し出しました";
+					String success = "貸し出しました!";
 					request.setAttribute("success", success);
 				}else {
 					String failure = "貸しだしに失敗しました";
 					request.setAttribute("failure", failure);
 				}
 				
-			forward = "/WEB-INF/views/mypage.jsp";
+				forward = "/WEB-INF/views/mypage.jsp";
+				
         } else if(action.equals("history")) {
         	
         	
         	SelectBookDAO historydao = new SelectBookDAO();
         	
         	 HttpSession session = request.getSession(false);
+        	 if(session == null) {
+        		 forward = "index.jsp";
+        	 } else {
 			    UsersBean user = (UsersBean) session.getAttribute("user");
 //useridを取得
 				int userid = user.getUser_id();
 				
-				System.out.println(userid);
+				
 				
 				List<HistoryBean> history = null;
 				
@@ -99,15 +103,15 @@ public class FrontControllerServlet extends HttpServlet {
 				
 				request.setAttribute("history", history);
 				
-				forward = "WEB=INF/views/renthistory.jsp";
+				forward = "/WEB-INF/views/renthistory.jsp";
                 
-        } else if(action.equals("search")) {
+        	 } } else if(action.equals("search")) {
         	
-        	System.out.println("history");
+        	
         	
         	String searchtitle = (String)request.getParameter("titlesearch");
         	
-        	System.out.println(searchtitle);
+        	
         	
         	SelectBookDAO searchdao = new SelectBookDAO();
         	
@@ -143,6 +147,19 @@ public class FrontControllerServlet extends HttpServlet {
         		forward = rentLimit.execute(request);
         	}
         	
+        	} else if(action.equals("checkallreturn")) {
+        		String[] returnbook = request.getParameterValues("return");
+        		System.out.println(returnbook);
+        		SelectBookDAO checkalldao = new SelectBookDAO();
+        		
+        		int result = checkalldao.returnCheckall(returnbook);
+        		if(result == 1) {
+        			String message = "返却しました";
+        			request.setAttribute("returnsuccess", message);
+            		
+        			forward = "/WEB-INF/views/mypage.jsp";
+        			
+        		}
         	}
         	
         	
@@ -156,14 +173,14 @@ public class FrontControllerServlet extends HttpServlet {
         		
         		
         		String hashedpass = PasswordHashServlet.getHashedPassword(Password, "HDJFUESLO83");
-				System.out.println(hashedpass);
+				
         		UsersDAO dao = new UsersDAO();
         		
         		
         		
         		int passchecker = Password.length();
         		
-        		System.out.println(passchecker);
+        		
         		
         		//ユーザ名がすでに登録されているかチェック
         		
@@ -273,7 +290,7 @@ public class FrontControllerServlet extends HttpServlet {
         } else if(action.equals("logout")) {
         	   HttpSession session = request.getSession();
                session.invalidate();           
-               forward = "/WEB-INF/views/mypage.jsp";
+               forward = "index.jsp";
           
         }
         	

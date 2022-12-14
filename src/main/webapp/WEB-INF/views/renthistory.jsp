@@ -13,27 +13,48 @@ ArrayList<HistoryBean>history = (ArrayList<HistoryBean>)request.getAttribute("hi
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	
+<title>貸出、返却履歴</title>
 </head>
 <body>
 
+<div class="p-3 mb-2 bg-success text-white">
 貸出、返却履歴
+</div>
 
+
+
+  
+   
 
 <% for(HistoryBean bean : history){ %>
+
+     <div class="row mx-md-n5">
+          <div class="col py-3 px-md-5 border bg-light">
   
-   <tr>
-          <td><% String bookid = bean.getBookId(); %>
-          <%= bookid %></td>
-          <td><% String title = bean.getTitle(); %>
-          <%= title %></td>
-          <td><% String rentdate = bean.getRentdate(); %>
-          <%= rentdate %></td>
-          <td><% String returndate = bean.getReturndate(); %>
-          <%= returndate %></td>
+   
+      <div class="main">
+           <div class="bookid"><% String bookid = bean.getBookId(); %>
+          <%= bookid %></div>
+           <div class="title"><% String title = bean.getTitle(); %>
+          <%= title %></div>
+          <div class="rentdate"><% String rentdate = bean.getRentdate(); %>
+         貸出日: <%= rentdate %></div>
+          <div class="returndate"><% String returndate = bean.getReturndate(); %>
+         返却日:<%= returndate %></div>
+         
+         </div>
+   
+  </div>
+ </div>
         
           
           <%} %>
+  
+   
+ 
+
 
 </body>
 </html>

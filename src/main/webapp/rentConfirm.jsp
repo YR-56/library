@@ -1,6 +1,6 @@
 
 <%@page import="bean.BookBean" %>
-
+<%@page import="bean.UsersBean" %>
 
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
@@ -11,6 +11,23 @@
 <title>この本を借りますか？</title>
 </head>
 <body>
+
+<% 
+try {
+UsersBean user = (UsersBean) session.getAttribute("user");
+//useridを取得
+
+String username = user.getUsername();
+} catch(NullPointerException e) {
+	e.printStackTrace();
+	System.out.println("不正なリダイレクトです");
+	
+	response.sendRedirect("index.jsp");
+
+
+	
+}
+%>
 
 <h1>本当にこの本を借りますか？</h1>
 

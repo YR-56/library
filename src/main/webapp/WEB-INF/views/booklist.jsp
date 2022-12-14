@@ -29,35 +29,38 @@ boolean isLimit = rentNum.isLimit();
 
 
 <HTML>
- <HEAD><TITLE>図書一覧</TITLE></HEAD>
+ <HEAD><TITLE>図書一覧</TITLE>
+ 
+ <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+	
+ </HEAD>
  <BODY>
+ 
+ ※現在貸し出し中または貸出上限に達しているものはボタンが押せなくなっています。
  
  <%= rentCount %>
  
- <% 
- String returnsuccess = (String)request.getAttribute("returnsuccess");
  
- %>
- 
- <% if(returnsuccess == null){ %>""<%}else { %>
- <%= returnsuccess %><%} %>
  
    <%if(isLimit) { %>※貸し出し可能冊数は２冊までです。<%} %>
          
  	    	
+ <div class="p-3 mb-2 bg-secondary text-white">書籍検索</div>
  
- <p>検索画面</p>
+ <div class="row mx-md-n5">
+      <div class="col py-3 px-md-5 border bg-light">
+
 	<form action="FrontControllerServlet" method="post">
 		書籍名：
 		著者名:
 		キーワード:
 		<br> <input type="text" name="titlesearch"><br>
 
-			<input type="submit" value="検索"> 
+			<input class="btn btn-success" type="submit" value="検索"> 
 			<input type="hidden"name="action" value="search"><br>
 	</form>
- 
-
+	</div>
+</div>
  
  
   <% for(BookBean bean : booklist){ %>
@@ -90,26 +93,20 @@ boolean isLimit = rentNum.isLimit();
            <input type="hidden" name="code" value="<%= code %>">
            <input type="hidden" name="status" value="<%= status %>">
            <input type="hidden" name="keyword" value="<%= keyword %>">
-           <input type="submit" name="rent" value="借りる"   <% if(status.equals("貸し出し中") || isLimit){%> disabled<%} %>>
+           <input class="btn btn-info" type="submit" name="rent" value="借りる"   <% if(status.equals("貸し出し中") || isLimit){%> disabled<% } %>>
          
 	       
 </form>
 </tr>
 
-<form action="FrontControllerServlet" method="post">
-   <input type="hidden" name="bookid" value="<%= bookid %>">
-         
-  <input type="hidden" name="action" value="return">
-  <input type="submit" value="返却" <%if(status.equals("貸し出し可能")){ %>disabled <%} %>>
-  </form>
-  
+
         <% } // endfor %>
         
        
   <form action="FrontControllerServlet" method="post">
   
   <input type="hidden" name="action" value="history">
-  <input type="submit" value="貸出/返却履歴">
+  <input class="btn btn-primary" type="submit" value="貸出/返却履歴">
   </form>
   
  

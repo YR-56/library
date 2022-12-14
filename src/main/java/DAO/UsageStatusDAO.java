@@ -12,7 +12,7 @@ public class UsageStatusDAO extends CommonDAO {
 	
 	
 	
-	/**　ユーザー利用状況を検索するメソッド
+	/**　食堂利用人数を検索するメソッド
 	 * 処理　Select文
 	 * @return 
 	 * @throws ClassNotFoundException 
@@ -20,7 +20,7 @@ public class UsageStatusDAO extends CommonDAO {
 	
 	
 	
-	public int countCurrentDiningUsers() throws SQLException , ClassNotFoundException {
+	public int countCurrentGamingUsers() throws SQLException , ClassNotFoundException {
 		
 		Connection con = null;
 		Statement prepareStatement = null;
@@ -31,7 +31,7 @@ public class UsageStatusDAO extends CommonDAO {
 		
 		prepareStatement = con.createStatement();
 		
-		String sql = "SELECT COUNT(user_id) as num FROM usesfood WHERE (food_date > (NOW() - INTERVAL 30 MINUTE))";
+		String sql = "SELECT COUNT(user_id) as num FROM usesgame WHERE (gaming_date > (NOW() - INTERVAL 50 MINUTE))";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
@@ -51,13 +51,46 @@ public class UsageStatusDAO extends CommonDAO {
 			int usageNum = rs.getInt("num");
 			return usageNum;
 		}
-		return 6;
+		return 0;
 		
 		
 	}
 	
+	/**
+	 * 施設利用人数を検索するメソッド
+	 * @return
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	
+	public int countCurrentClimbUsers() throws ClassNotFoundException, SQLException {
+	    Connection con = null;
+	    Statement prepareStatement = null;
+	    ResultSet rs = null;
+
+	    con = createConnection();
+	    prepareStatement = con.createStatement();
+	    String sql = "SELECT COUNT(user_id) as num FROM usesclimb WHERE climb_date > (NOW() - INTERVAL 40 MINUTE)";
+	    PreparedStatement st = con.prepareStatement(sql);
+
+	    st.execute(sql);
+	    rs = st.getResultSet();
+
+	    if(rs.next()) {
+	        int climbNum = rs.getInt("num");
+	        return climbNum;
+	    }
+	    return 0;
+	}
 	
 	
+	/**
+	 * 食堂利用申請
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public int userApplication(UsersBean user) throws SQLException, ClassNotFoundException {
 		
 		Connection con = null;
@@ -85,7 +118,7 @@ public class UsageStatusDAO extends CommonDAO {
 		
 		prepareStatement = con.createStatement();
 		
-		String sql = "INSERT INTO usesfood (user_id, food_date) values (?, CURRENT_TIMESTAMP)";
+		String sql = "INSERT INTO usesgame (user_id, gaming_date) values (?, CURRENT_TIMESTAMP)";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
@@ -108,9 +141,72 @@ public class UsageStatusDAO extends CommonDAO {
 		
 		
 	}
+	
+	
+	
+	
+public int climbApplication(UsersBean user) throws SQLException, ClassNotFoundException {
+		
+		Connection con = null;
+		Statement prepareStatement = null;
+		
+		//HttpSession session = request.getSession(false);
+		 //UsersBean user = (UsersBean) session.getAttribute("user");
+		   
+		 
+		//UsersBean user = (UsersBean)Session.users.getAttribute("user");
+		
+		//UsersBean user =  ${Session.users.getUsername()};
+		
+		int userid = user.getUser_id();
+	   
+	   
+	   // session.getAttribute("user");
+	   // UsersBean user = (UsersBean) session.getAttribute("user");
+	    
+	  
+	    
+		
+		int rs = 0;
+		con = createConnection();
+		
+		prepareStatement = con.createStatement();
+		
+		String sql = "INSERT INTO usesclimb (user_id, climb_date) values (?, CURRENT_TIMESTAMP)";
+		
+		PreparedStatement st = con.prepareStatement(sql);
+		
+		st.setInt(1, userid);
+		
+		
+		
+		rs = st.executeUpdate();	
+		//Selectの実行(executeQuery)
+		
+		
+	
+		//レコードから、各カラムの値を取得
+		if(rs == 1) {
+			return 1;
+			} else {
+				return 0;
+			}
+		
+		
+		
+	}
+	
+	
+	
 
 	
-	
+	/**
+	 * 食堂利用申請の重複チェック
+	 * @param user
+	 * @return
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 public boolean duplication(UsersBean user) throws SQLException, ClassNotFoundException {
 		
 		Connection con = null;
@@ -137,7 +233,7 @@ public boolean duplication(UsersBean user) throws SQLException, ClassNotFoundExc
 		
 		prepareStatement = con.createStatement();
 		
-		String sql = "SELECT * FROM usesfood WHERE user_id = ? AND (food_date > (NOW() - INTERVAL 30 MINUTE))";
+		String sql = "SELECT * FROM usesgame WHERE user_id = ? AND (gaming_date > (NOW() - INTERVAL 30 MINUTE))";
 		
 		PreparedStatement st = con.prepareStatement(sql);
 		
@@ -157,7 +253,26 @@ public boolean duplication(UsersBean user) throws SQLException, ClassNotFoundExc
 		
 	}
 
-	
+public boolean climbduplication(UsersBean user) throws ClassNotFoundException, SQLException {
+    Connection con = null;
+    Statement prepareStatement = null;
+
+
+    int userid = user.getUser_id();
+    ResultSet rs = null;
+
+    con = createConnection();
+    prepareStatement = con.createStatement();
+
+    String sql = "SELECT * FROM usesclimb WHERE user_id = ? AND (climb_date > (NOW() - INTERVAL 40 MINUTE))";
+    PreparedStatement st = con.prepareStatement(sql);
+    st.setInt(1, userid);
+    rs = st.executeQuery();
+
+    return rs.isBeforeFirst();
+}
+
+ 
 
 
 	

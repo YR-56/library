@@ -10,7 +10,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import DAO.UsageStatusDAO;
-import bean.DiningStatusBean;
+import bean.ClimingStatusBean;
+import bean.GamingStatusBean;
 
 /**
  * 利用状況照会
@@ -31,15 +32,26 @@ public class UsageStatusServlet extends HttpServlet {
 		UsageStatusDAO Countdao = new UsageStatusDAO();
 		
 		int usageNum = 0;
-		usageNum = Countdao.countCurrentDiningUsers();
+		usageNum = Countdao.countCurrentGamingUsers();
 		
-		int userCountInDining = usageNum;
-		DiningStatusBean diningStatus = new DiningStatusBean(userCountInDining);
+		int userCountInGaming = usageNum;
+		GamingStatusBean GamingStatus = new GamingStatusBean(userCountInGaming);
 		
-		diningStatus.setUserCount(userCountInDining);
-		diningStatus.setIsFull(userCountInDining>8);
+		GamingStatus.setUserCount(userCountInGaming);
+		GamingStatus.setIsFull(userCountInGaming>8);
 		
-		request.setAttribute("diningStatus", diningStatus);
+		request.setAttribute("GamingStatus", GamingStatus);
+		
+		int climbNum = 0;
+		climbNum = Countdao.countCurrentClimbUsers();
+		
+		int userCountIncliming = climbNum;
+		ClimingStatusBean climingStatus = new ClimingStatusBean(userCountIncliming);
+		
+		climingStatus.setUserCount(userCountIncliming);
+		climingStatus.setIsFull(userCountIncliming>2);
+		
+		request.setAttribute("climingStatus", climingStatus);
 		
 	    forward = "/WEB-INF/views/UsageStatus.jsp";
 		request.getRequestDispatcher(forward).forward(request, response);

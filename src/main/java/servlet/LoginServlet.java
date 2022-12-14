@@ -17,7 +17,7 @@ class LoginServlet  {
 		String password = (String)request.getParameter("password");
 		
 		String hashedpass = PasswordHashServlet.getHashedPassword(password, "HDJFUESLO83");
-		System.out.println(hashedpass);
+		
 		
 		String message = "";
 	
@@ -35,7 +35,7 @@ class LoginServlet  {
 			
 			return "/WEB-INF/views/mypage.jsp";
 		} else {
-			return "/WEB-INF/login_failer.jsp";
+			return "login_failer.jsp";
 		}
 		
 	}

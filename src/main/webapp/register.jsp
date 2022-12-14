@@ -38,7 +38,7 @@ window.onload = () => {
 
 <%} %>
 
-<form action="./library/FrontControllerServlet" method="post">
+<form action="<%= request.getContextPath() + "/FrontControllerServlet"%>" method="post"">
 		ユーザー名：<br>
 		<input type="text" name="username" value="<%= username == null ? "" : username %>"><br>
 		パスワード:<br>

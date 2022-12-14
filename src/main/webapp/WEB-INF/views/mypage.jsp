@@ -1,4 +1,4 @@
-<%@page import="bean.DiningStatusBean" %>
+
 <%@page import="bean.UsersBean" %>
 
 
@@ -18,15 +18,16 @@
 </HEAD>
 <BODY>
 
+
+
 <% 
 try {
 UsersBean user = (UsersBean) session.getAttribute("user");
 //useridを取得
 
-String username = user.getUsername();
 } catch(NullPointerException e) {
 	e.printStackTrace();
-	System.out.println("beanなし");
+	System.out.println("セッションが切れました。");
 	
 	response.sendRedirect("index.jsp");
 
@@ -34,7 +35,27 @@ String username = user.getUsername();
 	
 }
 
+
+
 %>
+
+<% 
+ String returnsuccess = (String)request.getAttribute("returnsuccess");
+ String rentsuccess = (String)request.getAttribute("success");
+ 
+ %>
+ 
+ <% if(returnsuccess != null){ %>
+ <div class="alert alert-success" role="alert">
+ <%= returnsuccess %><%} %>
+ </div>
+ 
+ <% if(rentsuccess != null){ %>
+ <div class="alert alert-primary" role="alert">
+ <%= rentsuccess %><%} %>
+ </div>
+ 
+ 
 
 
 
@@ -42,11 +63,28 @@ String username = user.getUsername();
 <%
 String message = "";
 message = (String)request.getAttribute("message");
+
+String climbmessage = "";
+climbmessage = (String)request.getAttribute("climbmessage");
+
+UsersBean user = (UsersBean) session.getAttribute("user");
+int userid = user.getUser_id();
+
 %>
 
-<h3><%if(message != null) { %>
-		<%= message %><%}  %>
-	</h3>
+
+  <%if(message != null) { %>
+		<div class="alert alert-primary" role="alert">
+		<%= message %></div><%}  %>
+
+
+
+ <%if(climbmessage != null) { %>
+ <div class="alert alert-success" role="alert">
+<%= climbmessage %>
+</div><%} %>
+
+
 
 
   <H2>施設管理システム</H2>
@@ -57,6 +95,10 @@ message = (String)request.getAttribute("message");
 	<LI><A href='UserChange.jsp'>ユーザー情報変更</A>
 	<LI><A href='deleteForm.html'>ログアウト</A>
 	<LI><A href='UsageStatusServlet'>食堂/入浴場使用状況</A>
+	<%if(userid == 24) {%>
+	<LI><A href='SelectlendingServlet'>管理者ページ</A>
+	<%} %>
+	
   </UL>
   
   <TABLE BORDER ALIGN="left">
@@ -70,7 +112,7 @@ message = (String)request.getAttribute("message");
    
          
   <input type="hidden" name="action" value="logout">
-  <input type="submit" value="ログアウト" >
+  <input class="btn btn-info" type="submit" value="ログアウト" >
   </form>
    
   

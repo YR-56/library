@@ -2,7 +2,7 @@ package bean;
 
 import java.io.Serializable;
 
-public class DiningStatusBean implements Serializable{
+public class GamingStatusBean implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -12,7 +12,7 @@ public class DiningStatusBean implements Serializable{
 	
 	
 
-	public DiningStatusBean(int usageCount) {
+	public GamingStatusBean(int usageCount) {
 		// TODO 自動生成されたコンストラクター・スタブ
 	}
 

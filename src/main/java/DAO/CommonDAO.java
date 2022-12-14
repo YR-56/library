@@ -17,7 +17,7 @@ public abstract class CommonDAO {
 	 * DBに接続する際に実行する
 	 * @return 生成されたコネクションを返す
 	 */
-	public Connection createConnection() throws SQLException, ClassNotFoundException {
+public Connection createConnection() throws SQLException, ClassNotFoundException {
 		
 		final String HOST_NAME = "localhost:3306";
 		final String DATABASE_NAME = "library";

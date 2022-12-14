@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import DAO.UsageStatusDAO;
-import bean.DiningStatusBean;
+import bean.GamingStatusBean;
 import bean.UsersBean;
 
 
@@ -44,27 +44,27 @@ import bean.UsersBean;
         return;
     }    
 
-    int userCountInDining = 0;
+    int userCountInGaming = 0;
 	try {
-		userCountInDining = dao.countCurrentDiningUsers();
+		userCountInGaming = dao.countCurrentGamingUsers();
 	} catch (ClassNotFoundException | SQLException e1) {
 		// TODO 自動生成された catch ブロック
 		e1.printStackTrace();
 	}
 
-    if(userCountInDining>8) {
+    if(userCountInGaming>2) {
         //DingingStatusBeanを生成
     	
     	
-		DiningStatusBean diningStatus = new DiningStatusBean(userCountInDining);
+		GamingStatusBean GamingStatus = new GamingStatusBean(userCountInGaming);
 		
 		
 		
 		
-		diningStatus.setIsFull(userCountInDining>8);
+		GamingStatus.setIsFull(userCountInGaming>2);
 		
 		//beanをsetAttributeする
-		request.setAttribute("diningStatus", diningStatus);
+		request.setAttribute("GamingStatus", GamingStatus);
 		
 		String message1 = "満員です";
 		request.setAttribute("message", message1);
@@ -73,7 +73,7 @@ import bean.UsersBean;
       
         //messageをリクエストにsetAttribute
 
-        forward = "/WEB-INF/views/UsageStatus.jsp";
+        forward = "/WEB-INF/views/mypage.jsp";
         request.getRequestDispatcher(forward).forward(request, response);
         return;
     }
@@ -91,14 +91,14 @@ import bean.UsersBean;
     if(isBeforeFirst) {
         //DIningStatusBeanを生成
     	//beanを生成
-		DiningStatusBean diningStatus = new DiningStatusBean(userCountInDining);
+		GamingStatusBean GamingStatus = new GamingStatusBean(userCountInGaming);
 		
 		
 		
-		diningStatus.setUserCount(userCountInDining);
+		GamingStatus.setUserCount(userCountInGaming);
 		
 		//beanをsetAttributeする
-		request.setAttribute("diningStatus", diningStatus);
+		request.setAttribute("diningStatus", GamingStatus);
 		
 		message = "30分以内に重複した申請はできません";
 		
@@ -109,7 +109,7 @@ import bean.UsersBean;
 
         //messageをリクエストにsetAttribute
 
-        forward = "/WEB-INF/views/UsageStatus.jsp";
+        forward = "/WEB-INF/views/mypage.jsp";
         request.getRequestDispatcher(forward).forward(request, response);
         return;
     }
@@ -126,20 +126,20 @@ import bean.UsersBean;
 
     if (rows == 1) {
     	
-    	userCountInDining = userCountInDining + 1;
+    	userCountInGaming = userCountInGaming + 1;
         //DiningStatusBeanを生成
-    	DiningStatusBean diningStatus = new DiningStatusBean(userCountInDining);
+    	GamingStatusBean GamingStatus = new GamingStatusBean(userCountInGaming);
 
         //DiningStatusBeanをリクエストにsetAttribute
-    	diningStatus.setUserCount(userCountInDining);
+    	GamingStatus.setUserCount(userCountInGaming);
     	
-    	request.setAttribute("diningStatus", diningStatus);
+    	request.setAttribute("diningStatus", GamingStatus);
 
         message = "追加に成功しました！";
         
         
         request.setAttribute("message", message);
-        forward = "UsageStatus.jsp";
+        forward = "/WEB-INF/views/mypage.jsp";
     }
     else {
         message = "追加に失敗しました！";
