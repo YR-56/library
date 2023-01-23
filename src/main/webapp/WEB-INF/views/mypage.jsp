@@ -95,7 +95,7 @@ int userid = user.getUser_id();
 	<LI><A href='UserChange.jsp'>ユーザー情報変更</A>
 	<LI><A href='deleteForm.html'>ログアウト</A>
 	<LI><A href='UsageStatusServlet'>食堂/入浴場使用状況</A>
-	<%if(userid == 24) {%>
+	<%if(userid == ？) {%>
 	<LI><A href='SelectlendingServlet'>管理者ページ</A>
 	<%} %>
 	
