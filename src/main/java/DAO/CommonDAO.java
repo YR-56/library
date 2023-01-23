@@ -19,20 +19,21 @@ public abstract class CommonDAO {
 	 */
 public Connection createConnection() throws SQLException, ClassNotFoundException {
 		
-		final String HOST_NAME = "localhost:3306";
-		final String DATABASE_NAME = "library";
-		final String USER_NAME = "root";
-		final String PASSWORD = "password";
+	final String HOST_NAME = "us-cdbr-???.cleardb.net";
+	final String DATABASE_NAME = "heroku_????????";
+	final String USER_NAME = "?????";
+	final String PASSWORD = "???????";
 	
-			// postgreSQLのJDBCドライバを読み込み
-			Class.forName("com.mysql.jdbc.Driver");
+	// postgreSQLのJDBCドライバを読み込み
+	  Class.forName("com.mysql.jdbc.Driver");
 
 		
 
-		//String url = "jdbc:mysql://" + HOST_NAME + "/" + DATABASE_NAME;
-		 String url = "jdbc:mysql://localhost:3306/library";
+	//String url = "jdbc:mysql://" + HOST_NAME + "/" + DATABASE_NAME;
+　　　　　 String url = "jdbc:mysql://us-cdbr-east-??.cleardb.net/heroku_????????";
 
-		Connection con = DriverManager.getConnection(url, USER_NAME, PASSWORD);
+
+	Connection con = DriverManager.getConnection(url, USER_NAME, PASSWORD);
 		
 
 		return con;
